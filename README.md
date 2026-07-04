@@ -1,3 +1,3 @@
 # books-code
 
-Simple collection of code i write as part of book reading session
+Simple collection of code i write as part of book reading sessions

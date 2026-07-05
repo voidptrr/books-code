@@ -3,6 +3,7 @@ CFLAGS ?= -Wall -Wextra -g
 CPPFLAGS ?=
 LDFLAGS ?=
 LDLIBS ?=
+CLANG_FORMAT ?= clang-format
 
 BUILD_DIR := build
 
@@ -14,7 +15,7 @@ CHAPTER3_SRCS := $(wildcard chapter3/*.c)
 CHAPTER2_BINS := $(patsubst chapter2/%.c,$(BUILD_DIR)/chapter2/%,$(CHAPTER2_SRCS))
 CHAPTER3_BINS := $(patsubst chapter3/%.c,$(BUILD_DIR)/chapter3/%,$(CHAPTER3_SRCS))
 
-.PHONY: all clean help chapter2 chapter3 $(addprefix chapter,$(CHAPTERS))
+.PHONY: all clean format help chapter2 chapter3 $(addprefix chapter,$(CHAPTERS))
 
 all: $(if $(CHAPTER),chapter$(CHAPTER),$(addprefix chapter,$(CHAPTERS)))
 
@@ -32,6 +33,9 @@ $(BUILD_DIR)/chapter3/%: chapter3/%.c
 clean:
 	$(RM) -r $(BUILD_DIR)
 
+format:
+	find . -type d -name $(BUILD_DIR) -prune -o -name '*.c' -exec $(CLANG_FORMAT) -i {} +
+
 help:
 	@printf '%s\n' \
 		'Targets:' \
@@ -39,7 +43,8 @@ help:
 		'  make chapter2     Build chapter 2 into build/chapter2/' \
 		'  make chapter3     Build chapter 3 into build/chapter3/' \
 		'  make CHAPTER=3    Build one chapter by number' \
+		'  make format       Format all C files with clang-format' \
 		'  make clean        Remove build output' \
 		'' \
 		'Variables:' \
-		'  CC, CFLAGS, CPPFLAGS, LDFLAGS, LDLIBS'
+		'  CC, CFLAGS, CPPFLAGS, LDFLAGS, LDLIBS, CLANG_FORMAT'

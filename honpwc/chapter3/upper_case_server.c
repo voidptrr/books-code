@@ -102,12 +102,15 @@ int main()
 						continue;
 					}
 
-                    for (int j = 0; j <= max_socket; j++) {
-                        if (FD_ISSET(j, &master)) {
-                            if (j == socket_listen || j == current) continue;
-                            send(j, read, bytes_received, 0);
-                        }
-                    }
+					for (int j = 0; j <= max_socket; j++) {
+						if (FD_ISSET(j, &master)) {
+							if (j == socket_listen ||
+							    j == current)
+								continue;
+							send(j, read,
+							     bytes_received, 0);
+						}
+					}
 				}
 			}
 		}

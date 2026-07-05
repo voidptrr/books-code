@@ -8,10 +8,10 @@ BUILD_DIR := build
 
 CHAPTERS := 2 3
 
-CHAPTER2_SRCS := chapter2.c
+CHAPTER2_SRCS := $(wildcard chapter2/*.c)
 CHAPTER3_SRCS := $(wildcard chapter3/*.c)
 
-CHAPTER2_BINS := $(patsubst %.c,$(BUILD_DIR)/chapter2/%,$(CHAPTER2_SRCS))
+CHAPTER2_BINS := $(patsubst chapter2/%.c,$(BUILD_DIR)/chapter2/%,$(CHAPTER2_SRCS))
 CHAPTER3_BINS := $(patsubst chapter3/%.c,$(BUILD_DIR)/chapter3/%,$(CHAPTER3_SRCS))
 
 .PHONY: all clean help chapter2 chapter3 $(addprefix chapter,$(CHAPTERS))
@@ -21,7 +21,7 @@ all: $(if $(CHAPTER),chapter$(CHAPTER),$(addprefix chapter,$(CHAPTERS)))
 chapter2: $(CHAPTER2_BINS)
 chapter3: $(CHAPTER3_BINS)
 
-$(BUILD_DIR)/chapter2/%: %.c
+$(BUILD_DIR)/chapter2/%: chapter2/%.c
 	@mkdir -p $(@D)
 	$(CC) $(CPPFLAGS) $(CFLAGS) $< -o $@ $(LDFLAGS) $(LDLIBS)
 
